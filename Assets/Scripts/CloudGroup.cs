@@ -7,7 +7,7 @@ public class CloudGroup : MonoBehaviour
     [SerializeField] private StartCloudTravelDot _startTravelDot;
     [SerializeField] private int _timeMoving;
 
-    public event Action EndAnimation;
+    public event Action EndedAnimation;
     
     private Weather _weather;
     private SpriteRenderer[] _clouds;
@@ -23,8 +23,8 @@ public class CloudGroup : MonoBehaviour
     {
         _timeMoving = UnityEngine.Random.Range(_minTimeToMoving,_maxTimeToMOving);
         _weather = GetComponentInParent<Weather>();
-        _weather.StartCalmWeather += CalmDown;
-        _weather.StartCloudGathering += Gathering;
+        _weather.StartedCalmWeather += CalmDown;
+        _weather.StartedCloudGathering += Gathering;
 
         _clouds = GetComponentsInChildren<SpriteRenderer>();
         transform.position = _startTravelDot.transform.position;
@@ -34,11 +34,11 @@ public class CloudGroup : MonoBehaviour
 
     private void OnDisable()
     {
-        _weather.StartCalmWeather -= CalmDown;
-        _weather.StartCloudGathering -= Gathering;
+        _weather.StartedCalmWeather -= CalmDown;
+        _weather.StartedCloudGathering -= Gathering;
     }
 
-    public void Gathering()
+    private void Gathering()
     {
         Sequence sequence = DOTween.Sequence();
 
@@ -49,11 +49,11 @@ public class CloudGroup : MonoBehaviour
             sequence.Insert(_timeToDarking, _clouds[i].DOColor(_darkColor, _timeToChangeColor));
         }
 
-        sequence.onComplete += EndAnimation.Invoke;
+        sequence.onComplete += EndedAnimation.Invoke;
 
     }
 
-    public void CalmDown()
+    private void CalmDown()
     {
         Sequence sequence = DOTween.Sequence();
 
@@ -64,6 +64,6 @@ public class CloudGroup : MonoBehaviour
 
         sequence.Append(transform.DOMove(_startTravelDot.transform.position, _timeMoving));
 
-        sequence.onComplete += EndAnimation.Invoke;
+        sequence.onComplete += EndedAnimation.Invoke;
     }
 }

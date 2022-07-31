@@ -17,16 +17,16 @@ public class SkyLight : MonoBehaviour
         _weather = GetComponentInParent<Weather>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
-        _weather.StartCalmWeather += StartCalmLight;
-        _weather.StartCloudGathering += StartThunderLight;
-        _weather.StartThunderWeather += StartLighting;
+        _weather.StartedCalmWeather += StartCalmLight;
+        _weather.StartedCloudGathering += StartThunderLight;
+        _weather.StartedThunderWeather += StartLighting;
     }
 
     private void OnDisable()
     {
-        _weather.StartCalmWeather -= StartCalmLight;
-        _weather.StartCloudGathering -= StartThunderLight;
-        _weather.StartThunderWeather -= StartLighting;
+        _weather.StartedCalmWeather -= StartCalmLight;
+        _weather.StartedCloudGathering -= StartThunderLight;
+        _weather.StartedThunderWeather -= StartLighting;
     }
 
     private void StartLighting()

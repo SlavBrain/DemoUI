@@ -8,15 +8,15 @@ public class Weather : MonoBehaviour
     [SerializeField] private Button _calmButton;
     [SerializeField] private Button _specialButton;
 
-    public event Action StartCloudGathering;
-    public event Action StartThunderWeather;
-    public event Action StartCalmWeather;
+    public event Action StartedCloudGathering;
+    public event Action StartedThunderWeather;
+    public event Action StartedCalmWeather;
 
     private CloudGroup[] _cloudGroup;
     private int _countCloudGroupEndedAnimation;
 
-    [SerializeField]private bool _isActiveAnimation = false;
-    [SerializeField]private bool _isCalmWeather = true;
+    private bool _isActiveAnimation = false;
+    private bool _isCalmWeather = true;
 
     private void OnEnable()
     {
@@ -24,7 +24,7 @@ public class Weather : MonoBehaviour
 
         foreach (CloudGroup clouds in _cloudGroup)
         {
-            clouds.EndAnimation += CheckStateCLoudsAnimation;
+            clouds.EndedAnimation += CheckStateCLoudsAnimation;
         }
 
         _thunderButton.onClick.AddListener(StartingCloudsGathering);
@@ -39,31 +39,31 @@ public class Weather : MonoBehaviour
         _specialButton.onClick.RemoveListener(StartingThunder);
     }
 
-    public void StartingCloudsGathering()
+    private void StartingCloudsGathering()
     {
         if (!_isActiveAnimation && _isCalmWeather)
         {
             _countCloudGroupEndedAnimation = 0;
             _isActiveAnimation = true;
-            StartCloudGathering?.Invoke();
+            StartedCloudGathering?.Invoke();
         }        
     }
 
-    public void StartingCalm()
+    private void StartingCalm()
     {
         if (!_isActiveAnimation&&!_isCalmWeather)
         {
             _countCloudGroupEndedAnimation = 0;
             _isActiveAnimation = true;
-            StartCalmWeather?.Invoke();
+            StartedCalmWeather?.Invoke();
         }        
     }
 
-    public void StartingThunder()
+    private void StartingThunder()
     {
         if (!_isActiveAnimation && !_isCalmWeather)
         {
-            StartThunderWeather?.Invoke();
+            StartedThunderWeather?.Invoke();
         }
     }
 

@@ -29,8 +29,14 @@ public class WeatherButton : MonoBehaviour
             _button.interactable = false;
         }
 
-        _buttonController.SettingCalmWeatherUI += SetCalmWeatherState;
-        _buttonController.SettingFoulWeatherUI += SetFoulWeatherState;
+        _buttonController.SettedCalmWeatherUI += SetCalmWeatherState;
+        _buttonController.SettedFoulWeatherUI += SetFoulWeatherState;
+    }
+
+    private void OnDisable()
+    {
+        _buttonController.SettedCalmWeatherUI -= SetCalmWeatherState;
+        _buttonController.SettedFoulWeatherUI -= SetFoulWeatherState;
     }
 
     private void SetCalmWeatherState()

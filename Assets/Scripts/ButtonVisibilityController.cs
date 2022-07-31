@@ -4,26 +4,26 @@ using UnityEngine.UI;
 
 public class ButtonVisibilityController : MonoBehaviour
 {
-    [SerializeField] Button[] ActiveUIInCalmWeather;
-    [SerializeField] Button[] ActiveUIInFoulWeather;
+    [SerializeField] private Button[] ActiveUIInCalmWeather;
+    [SerializeField] private Button[] ActiveUIInFoulWeather;
     [SerializeField] private Weather _weather;
 
-    public event Action SettingCalmWeatherUI;
-    public event Action SettingFoulWeatherUI;
+    public event Action SettedCalmWeatherUI;
+    public event Action SettedFoulWeatherUI;
 
     private void OnEnable()
     {
-        _weather.StartCalmWeather +=SetCalmWeatherUI;
-        _weather.StartCloudGathering +=SetFoulWeaherUI;
+        _weather.StartedCalmWeather +=SetCalmWeatherUI;
+        _weather.StartedCloudGathering +=SetFoulWeaherUI;
     }
 
     private void SetCalmWeatherUI()
     {
-        SettingCalmWeatherUI?.Invoke();
+        SettedCalmWeatherUI?.Invoke();
     }
 
     private void SetFoulWeaherUI()
     {
-        SettingFoulWeatherUI?.Invoke();
+        SettedFoulWeatherUI?.Invoke();
     }
 }
